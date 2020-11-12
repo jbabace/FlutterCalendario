@@ -138,7 +138,10 @@ class _CuadroWidgetState extends State<WidgetCuadro> {
                         child: const Text('Guardar'),
                         onPressed: () {
                           Navigator.pop(context);
-                          if (colorCambio == null) {
+                          if(widget.item.color != null){
+                              colorCambio = widget.item.color;
+                          }
+                          else if (colorCambio == null) {
                             colorCambio = Colors.white;
                           }
                           setState(() {

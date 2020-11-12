@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:calendario_estatico/src/model/Cuadro.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_circle_color_picker/flutter_circle_color_picker.dart';
  
 class WidgetCuadro extends StatefulWidget {
   WidgetCuadro({Key key, this.item}) : super(key: key);
@@ -15,6 +16,7 @@ class _CuadroWidgetState extends State<WidgetCuadro> {
   final controlador1 = TextEditingController();
   final controlador2 = TextEditingController();
   final controlador3 = TextEditingController();
+  Color colorCambio;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +53,12 @@ class _CuadroWidgetState extends State<WidgetCuadro> {
               ],
             ),
           ),
+          onTap: (){
+            this.mostrarVentana(context);
+            /*setState(() {
+              widget.item.setTexto1 = "hola";
+            });*/
+          },
         )
       ],
     );
@@ -81,6 +89,16 @@ class _CuadroWidgetState extends State<WidgetCuadro> {
                 controller: controlador3..text = widget.item.t3,
                 decoration: new InputDecoration(
                   labelText: 'Aula', hintText: ''
+                ),
+              ),
+
+              Center(
+                child: CircleColorPicker(
+                  initialColor: widget.item.color,
+                  onChanged: (color) => colorCambio = color,
+                  size: const Size(240, 240),
+                  strokeWidth: 4,
+                  thumbSize: 36,
                 ),
               ),
               
@@ -120,10 +138,15 @@ class _CuadroWidgetState extends State<WidgetCuadro> {
                         child: const Text('Guardar'),
                         onPressed: () {
                           Navigator.pop(context);
+                          if (colorCambio == null) {
+                            colorCambio = Colors.white;
+                          }
                           setState(() {
                             widget.item.setTexto1 = controlador1.text;
                             widget.item.setTexto2 = controlador2.text;
                             widget.item.setTexto3 = controlador3.text;
+                            widget.item.setColor = colorCambio;
+                            print(widget.item.color);
                           });
                         }
                       ),
